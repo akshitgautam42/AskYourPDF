@@ -37,19 +37,19 @@ def main():
         knowledge_base = FAISS.from_texts(chunks,embeddings)
 
         #show user input
-        while True:
-            user_question = st.text_input("Ask a question:")
 
-            if user_question:
-                docs=knowledge_base.similarity_search(user_question)
+        user_question = st.text_input("Ask a question:")
 
-                llm=OpenAI()
-                chain=load_qa_chain(llm,chain_type="stuff")
-                with get_openai_callback() as cb:
-                    response =chain.run(input_documents=docs,question=user_question)
-                    print(cb)
+        if user_question:
+            docs=knowledge_base.similarity_search(user_question)
+
+            llm=OpenAI()
+            chain=load_qa_chain(llm,chain_type="stuff")
+            with get_openai_callback() as cb:
+                response =chain.run(input_documents=docs,question=user_question)
+                print(cb)
                 
-                st.write(response)
+            st.write(response)
 
 
 
